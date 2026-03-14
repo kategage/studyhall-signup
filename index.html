@@ -260,54 +260,77 @@
     display: block;
   }
 
-  /* === EXPERIENCE SCALE === */
-  .scale-wrapper {
+  /* === RADIO SCALE OPTIONS === */
+  .radio-scale {
+    margin: 6px 0 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .radio-option {
     display: flex;
     align-items: center;
-    gap: 6px;
-    margin: 4px 0 2px;
-    line-height: 32px;
-    flex-wrap: nowrap;
-  }
-
-  .scale-labels {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    max-width: 260px;
-  }
-
-  .scale-btn {
-    width: 36px;
-    height: 36px;
-    min-width: 36px;
-    border-radius: 50%;
-    border: 2px solid #ddd;
-    background: var(--page-white);
-    font-family: 'Caveat', cursive;
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--pencil-light);
+    gap: 10px;
     cursor: pointer;
-    transition: all 0.15s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .scale-btn:hover {
-    border-color: var(--pencil-light);
-    color: var(--pencil-gray);
-  }
-  .scale-btn.selected {
-    background: var(--pencil-gray);
-    border-color: var(--pencil-gray);
-    color: var(--page-white);
+    padding: 4px 0;
+    line-height: 32px;
   }
 
-  .scale-end-label {
-    font-size: 12px;
-    color: var(--pencil-light);
-    white-space: nowrap;
+  .radio-option input[type="radio"] {
+    display: none;
+  }
+
+  .radio-dot {
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    background: var(--page-white);
+    transition: all 0.15s;
+    position: relative;
+  }
+  .radio-dot::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--pencil-gray);
+    transform: scale(0);
+    transition: transform 0.15s;
+  }
+
+  .radio-option input[type="radio"]:checked + .radio-dot {
+    border-color: var(--pencil-gray);
+  }
+  .radio-option input[type="radio"]:checked + .radio-dot::after {
+    transform: scale(1);
+  }
+  .radio-option input[type="radio"]:checked ~ .radio-label {
+    background: linear-gradient(to top, rgba(255,230,0,0.55) 0%, rgba(255,230,0,0.55) 60%, transparent 60%);
+    padding: 0 4px;
+    margin: 0 -4px;
+  }
+
+  .radio-option:hover .radio-dot {
+    border-color: var(--pencil-light);
+  }
+
+  .radio-label {
+    font-size: 14px;
+    color: var(--pencil-gray);
+    line-height: 32px;
+    transition: background 0.15s;
+    border-radius: 2px;
+  }
+  .radio-label strong {
+    font-family: 'Caveat', cursive;
+    font-size: 17px;
+    font-weight: 600;
   }
 
   /* === SUBMIT === */
@@ -466,7 +489,7 @@
 <div class="cover">
   <div class="cover-label">
     <h1>CLAUDE CODE<br>STUDY HALLS</h1>
-    <div class="subtitle">Cooperative Impact Lab</div>
+    <div class="subtitle">Higher Ground Institute</div>
   </div>
 </div>
 
@@ -484,6 +507,23 @@
         and other AI tools. Perfect for beginners — we cap each session at 10 people
         so everyone gets support.
       </p>
+      <p style="margin-top: 4px;">
+        When we schedule a session we'll send the registration to this list — sign up
+        when you see that come through because space will be limited!
+      </p>
+      <p style="margin-top: 4px;">
+        Want to know more about adopting and learning about AI? Check out our <a href="https://highergroundlabs.com/hgi-ai-resource-guide/" target="_blank" style="color: var(--pencil-gray); text-decoration: underline;">Resource Guide</a>!
+      </p>
+
+      <hr class="divider">
+
+      <h2>What you'll need</h2>
+      <ul class="session-format">
+        <li>A Claude (Anthropic) account — ideally a Max account if possible</li>
+        <li>The Claude desktop app on your laptop</li>
+        <li>Curiosity and willingness to learn!</li>
+        <li>Optional: A data set (csv, api, anything really!) you want to work with</li>
+      </ul>
 
       <hr class="divider">
 
@@ -520,22 +560,68 @@
       </div>
 
       <div class="form-group">
-        <label>Experience with AI coding tools <span class="optional-tag">optional</span></label>
-        <div class="scale-wrapper">
-          <span class="scale-end-label">Beginner</span>
-          <button type="button" class="scale-btn" data-value="1">1</button>
-          <button type="button" class="scale-btn" data-value="2">2</button>
-          <button type="button" class="scale-btn" data-value="3">3</button>
-          <button type="button" class="scale-btn" data-value="4">4</button>
-          <button type="button" class="scale-btn" data-value="5">5</button>
-          <span class="scale-end-label">Expert</span>
+        <label>Experience with AI</label>
+        <div class="radio-scale">
+          <label class="radio-option">
+            <input type="radio" name="AI Experience" value="Beginner: Just started">
+            <span class="radio-dot"></span>
+            <span class="radio-label"><strong>Beginner:</strong> Just started</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="AI Experience" value="Some Experience: I use AI occasionally">
+            <span class="radio-dot"></span>
+            <span class="radio-label"><strong>Some Experience:</strong> I use AI occasionally</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="AI Experience" value="Regular User: I use AI regularly in my work/life">
+            <span class="radio-dot"></span>
+            <span class="radio-label"><strong>Regular User:</strong> I use AI regularly in my work/life</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="AI Experience" value="Advanced: I build with AI and teach others">
+            <span class="radio-dot"></span>
+            <span class="radio-label"><strong>Advanced:</strong> I build with AI and teach others</span>
+          </label>
         </div>
-        <input type="hidden" id="experience" name="Experience Level" value="">
+        <div class="field-error" id="ai-experience-error">Please select your experience with AI</div>
       </div>
 
       <div class="form-group">
-        <label for="project">What do you hope to build? <span class="optional-tag">optional</span></label>
-        <textarea id="project" name="Project Description" rows="2" placeholder="A quick idea or goal..."></textarea>
+        <label>Experience with AI coding tools</label>
+        <div class="radio-scale">
+          <label class="radio-option">
+            <input type="radio" name="Experience Level" value="1: I haven't tried yet">
+            <span class="radio-dot"></span>
+            <span class="radio-label"><strong>1:</strong> I haven't tried yet</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="Experience Level" value="2: I've tried a few things with skills">
+            <span class="radio-dot"></span>
+            <span class="radio-label"><strong>2:</strong> I've tried a few things with skills</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="Experience Level" value="3: I've built something using code">
+            <span class="radio-dot"></span>
+            <span class="radio-label"><strong>3:</strong> I've built something using code</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="Experience Level" value="4: I'm regularly building with AI coding tools">
+            <span class="radio-dot"></span>
+            <span class="radio-label"><strong>4:</strong> I'm regularly building with AI coding tools</span>
+          </label>
+        </div>
+        <div class="field-error" id="experience-level-error">Please select your experience with AI coding tools</div>
+      </div>
+
+      <div class="form-group">
+        <label for="project">What is something you're hoping to build?</label>
+        <textarea id="project" name="Project Description" rows="2" placeholder="If you don't know that's ok! Put some time-consuming challenge you might have..." required></textarea>
+        <div class="field-error" id="project-error">Please describe what you're hoping to build or a challenge you have</div>
+      </div>
+
+      <div class="form-group">
+        <label for="anything-else">Is there anything else you'd like to learn or we should know? <span class="optional-tag">optional</span></label>
+        <textarea id="anything-else" name="Anything Else" rows="2" placeholder=""></textarea>
       </div>
 
       <div class="submit-row">
@@ -593,20 +679,6 @@
   window.addEventListener('resize', renderSpiral);
 
   // ============================================================
-  // Experience scale
-  // ============================================================
-  const scaleBtns = document.querySelectorAll('.scale-btn');
-  const experienceInput = document.getElementById('experience');
-
-  scaleBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      scaleBtns.forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-      experienceInput.value = btn.dataset.value;
-    });
-  });
-
-  // ============================================================
   // Form submission
   // ============================================================
   const form = document.getElementById('signup-form');
@@ -624,6 +696,9 @@
     let valid = true;
     const name = document.getElementById('fullname');
     const email = document.getElementById('email');
+    const project = document.getElementById('project');
+    const aiExp = document.querySelector('input[name="AI Experience"]:checked');
+    const codingExp = document.querySelector('input[name="Experience Level"]:checked');
 
     if (!name.value.trim()) {
       showError('fullname', true);
@@ -638,6 +713,27 @@
       valid = false;
     } else {
       showError('email', false);
+    }
+
+    if (!aiExp) {
+      showError('ai-experience', true);
+      valid = false;
+    } else {
+      showError('ai-experience', false);
+    }
+
+    if (!codingExp) {
+      showError('experience-level', true);
+      valid = false;
+    } else {
+      showError('experience-level', false);
+    }
+
+    if (!project.value.trim()) {
+      showError('project', true);
+      valid = false;
+    } else {
+      showError('project', false);
     }
 
     return valid;
@@ -675,8 +771,6 @@
   // Reset form
   resetBtn.addEventListener('click', () => {
     form.reset();
-    scaleBtns.forEach(b => b.classList.remove('selected'));
-    experienceInput.value = '';
     showError('fullname', false);
     showError('email', false);
     form.style.display = 'block';
@@ -687,6 +781,9 @@
   // Clear errors on input
   document.getElementById('fullname').addEventListener('input', () => showError('fullname', false));
   document.getElementById('email').addEventListener('input', () => showError('email', false));
+  document.getElementById('project').addEventListener('input', () => showError('project', false));
+  document.querySelectorAll('input[name="AI Experience"]').forEach(r => r.addEventListener('change', () => showError('ai-experience', false)));
+  document.querySelectorAll('input[name="Experience Level"]').forEach(r => r.addEventListener('change', () => showError('experience-level', false)));
 </script>
 
 </body>
